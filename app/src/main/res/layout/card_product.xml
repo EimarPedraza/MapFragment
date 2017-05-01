@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backcard">
+
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/tvProduct" />
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/tvPrice" />
+
+        <EditText style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/etQuantity"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">FindBerry</string>
+    <string name="etuser">Usuario</string>
+    <string name="etpass">Contraseña</string>
+    <string name="blogin">Ingresar</string>
+    <string name="tvregister">Resgistrarse</string>
+    <string name="bregister">Resgistrarse</string>
+    <string name="bcancel">Cancelar</string>
+    <string name="etpassr">Reescribir contraseña</string>
+    <string name="etmail">Correo</string>
+    <string name="tLogEmpty">¡Por favor llena todos los espacios en blanco!</string>
+    <string name="tLogWrongPass">¡Contraseña incorrecta!</string>
+    <string name="tLogWrongUser">¡El usuario no existe!</string>
+    <string name="tRegReg">¡Registrado exitosamente!</string>
+    <string name="tRegPassNoMatch">¡Las contraseñas no coinciden!</string>
+    <string name="miPerfi">Perfil</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="maps">Mapas</string>
+    <string name="deliv">Delivery</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main_t">MainTActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quantity">Cantidad</string>
+    <string name="foodmenu">Alimentación</string>
+    <string name="acadmenu">Académicos</string>
+    <string name="ociomenu">Ocio</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="loginerror">Error en el Ingreso</string>
+    <string name="tvProduct">Producto</string>
+    <string name="tvPrice">Precio</string>
+    <string name="tvQuantity">Cantidad</string>
+    <string name="bConfirm">Confirmar pedido</string>
+    <string name="event">Evento deseado</string>
+    <string name="eventdesc">Descripción (Hora, fecha, tipo de evento, preferencias)</string>
+    <string name="bConfirmEvent">Confirmar</string>
+    <string name="tvPending">Pedidos Pendientes</string>
+    <string name="tvUser">Usuario</string>
+    <string name="tvSeeP">Ver pedido</string>
+    <string name="tvSide">Lugar</string>
+    <string name="tvRoute">Recorrido</string>
+    <string name="tvSeeR">Ver recorrido</string>
+    <string name="bView">Ver</string>
+    <string name="deliverer">Deliverer</string>
+    <string name="Logout">Cerrar Sesión</string>
+</resources>

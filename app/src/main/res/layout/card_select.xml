@@ -1,0 +1,69 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivOpCardImage"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/acad"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView style="@style/cardsstyle"
+                android:id="@+id/tvCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_black_24dp"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_black_24dp" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_black_24dp" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_black_24dp" />
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_favorite_black_24dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

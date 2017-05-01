@@ -1,0 +1,199 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.david.findberry.DeliveryFragment"
+    android:background="@color/backcolor">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pr"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/dnameid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"
+                        android:text="Deliverer 1"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_black_24dp"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_black_24dp"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_black_24dp"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_black_24dp"/>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_favorite_black_24dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView style="@style/titlestyle"
+                    android:layout_weight="2"
+                    android:text="@string/tvPending" />
+
+                <TextView style="@style/titlestyle"
+                    android:layout_weight="1"
+                    android:text="@string/tvUser" />
+
+
+                <TextView style="@style/titlestyle"
+                    android:layout_weight="1"
+                    android:text="@string/tvSeeP" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/fdRecycler">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView style="@style/titlestyle"
+                    android:id="@+id/tvUsert"
+                    android:layout_weight="1"
+                    android:text="@string/tvUser"
+                    android:visibility="invisible" />
+
+                <TextView style="@style/cellstyle"
+                    android:id="@+id/tvUser"
+                    android:layout_weight="2"
+                    android:text="@string/tvSeeP"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView style="@style/titlestyle"
+                    android:id="@+id/tvProductt"
+                    android:layout_weight="1"
+                    android:text="@string/tvProduct"
+                    android:visibility="invisible" />
+
+                <TextView style="@style/cellstyle"
+                    android:id="@+id/tvProduct"
+                    android:layout_weight="2"
+                    android:text="@string/tvSeeP"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView style="@style/titlestyle"
+                    android:id="@+id/tvSidet"
+                    android:layout_weight="1"
+                    android:text="@string/tvSide"
+                    android:visibility="invisible" />
+
+                <TextView style="@style/cellstyle"
+                    android:id="@+id/tvSide"
+                    android:layout_weight="2"
+                    android:text="@string/tvSeeP"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView style="@style/titlestyle"
+                android:id="@+id/tvPricet"
+                android:layout_weight="1"
+                android:text="@string/tvPrice"
+                android:visibility="invisible" />
+
+            <TextView style="@style/cellstyle"
+                android:id="@+id/tvPrice"
+                android:layout_weight="2"
+                android:text="@string/tvSeeP"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView style="@style/titlestyle"
+                    android:id="@+id/tvRoutet"
+                    android:layout_weight="1"
+                    android:text="@string/tvRoute"
+                    android:visibility="invisible" />
+
+                <Button style="@style/cellstyle"
+                    android:id="@+id/bRoute"
+                    android:layout_weight="2"
+                    android:text="@string/tvSeeR"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</FrameLayout>
