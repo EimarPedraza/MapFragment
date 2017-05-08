@@ -42,7 +42,7 @@
 
         <activity android:name=".SelectActivity" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EventActivity"/>
     </application>
 
 </manifest>
