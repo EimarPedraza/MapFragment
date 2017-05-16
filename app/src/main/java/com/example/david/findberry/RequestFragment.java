@@ -36,9 +36,9 @@ public class RequestFragment extends Fragment {
 
         List<RequestItems> requestItemsList = new ArrayList<>();
 
-        requestItemsList.add(new RequestItems(R.drawable.food,getString(R.string.foodmenu)));
-        requestItemsList.add(new RequestItems(R.drawable.acad,getString(R.string.acadmenu)));
-        requestItemsList.add(new RequestItems(R.drawable.ocio,getString(R.string.ociomenu)));
+        requestItemsList.add(new RequestItems(R.drawable.food,getString(R.string.foodmenu),0.0));
+        requestItemsList.add(new RequestItems(R.drawable.acad,getString(R.string.acadmenu),0.0));
+        requestItemsList.add(new RequestItems(R.drawable.ocio,getString(R.string.ociomenu),0.0));
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rfRecycler);
         recyclerView.setHasFixedSize(true);

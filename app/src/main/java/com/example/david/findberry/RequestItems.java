@@ -13,46 +13,52 @@ import java.util.List;
  * Created by David on 30/04/2017.
  */
 
-public class RequestItems
+class RequestItems
 {
 
     private int imagen;
     private String text;
+    private double score;
 
-    public RequestItems(int imagen, String text)
+    RequestItems(int imagen, String text,double score)
     {
         this.imagen = imagen;
         this.text = text;
+        this.score = score;
 
     }
 
 
-    public int getImagen() {
+    int getImagen() {
         return imagen;
     }
 
     public String getText() {
         return text;
     }
+
+    double getScore() {
+        return score;
+    }
 }
 
 class RequestItemsAdapter extends RecyclerView.Adapter<RequestItemsAdapter.RequestItemsViewHolder> {
     private List<RequestItems> items;
 
-    public static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
+    static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
-        public ImageView imagen;
+        ImageView imagen;
         public TextView text;
 
 
-        public RequestItemsViewHolder(View v) {
+        RequestItemsViewHolder(View v) {
             super(v);
             imagen = (ImageView) v.findViewById(R.id.ivCardImage);
             text = (TextView) v.findViewById(R.id.ivCardName);
         }
     }
 
-    public RequestItemsAdapter(List<RequestItems> items) {
+    RequestItemsAdapter(List<RequestItems> items) {
         this.items = items;
     }
 
@@ -72,27 +78,37 @@ class RequestItemsAdapter extends RecyclerView.Adapter<RequestItemsAdapter.Reque
     public void onBindViewHolder(RequestItemsViewHolder viewHolder, int i) {
         viewHolder.imagen.setImageResource(items.get(i).getImagen());
         viewHolder.text.setText(items.get(i).getText());
-
     }
+
 }
 
 class RequestItemsAdapter2 extends RecyclerView.Adapter<RequestItemsAdapter2.RequestItemsViewHolder> {
     private List<RequestItems> items;
 
-    public static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
+    static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
-        public ImageView imagen;
+        ImageView imagen;
         public TextView text;
+        ImageView h1;
+        ImageView h2;
+        ImageView h3;
+        ImageView h4;
+        ImageView h5;
 
 
-        public RequestItemsViewHolder(View v) {
+        RequestItemsViewHolder(View v) {
             super(v);
             imagen = (ImageView) v.findViewById(R.id.ivOpCardImage);
             text = (TextView) v.findViewById(R.id.tvCard);
+            h1 = (ImageView) v.findViewById(R.id.h1);
+            h2 = (ImageView) v.findViewById(R.id.h2);
+            h3 = (ImageView) v.findViewById(R.id.h3);
+            h4 = (ImageView) v.findViewById(R.id.h4);
+            h5 = (ImageView) v.findViewById(R.id.h5);
         }
     }
 
-    public RequestItemsAdapter2(List<RequestItems> items) {
+    RequestItemsAdapter2(List<RequestItems> items) {
         this.items = items;
     }
 
@@ -112,6 +128,75 @@ class RequestItemsAdapter2 extends RecyclerView.Adapter<RequestItemsAdapter2.Req
     public void onBindViewHolder(RequestItemsViewHolder viewHolder, int i) {
         viewHolder.imagen.setImageResource(items.get(i).getImagen());
         viewHolder.text.setText(items.get(i).getText());
+
+        viewHolder.h1.setVisibility(View.VISIBLE);
+        viewHolder.h2.setVisibility(View.VISIBLE);
+        viewHolder.h3.setVisibility(View.VISIBLE);
+        viewHolder.h4.setVisibility(View.VISIBLE);
+        viewHolder.h5.setVisibility(View.VISIBLE);
+        if(items.get(i).getScore() > 4.5){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h4.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h5.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
+        else if(items.get(i).getScore() > 4.0){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h4.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h5.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        }
+        else if(items.get(i).getScore() > 3.5){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h4.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else if(items.get(i).getScore() > 3.0){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h4.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else if(items.get(i).getScore() > 2.5){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h4.setVisibility(View.INVISIBLE);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else if(items.get(i).getScore() > 2.0){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            viewHolder.h4.setVisibility(View.INVISIBLE);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else if(items.get(i).getScore() > 1.5){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h3.setVisibility(View.INVISIBLE);
+            viewHolder.h4.setVisibility(View.INVISIBLE);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else if(items.get(i).getScore() > 1.0){
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            viewHolder.h3.setVisibility(View.INVISIBLE);
+            viewHolder.h4.setVisibility(View.INVISIBLE);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
+        else {
+            viewHolder.h1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            viewHolder.h2.setVisibility(View.INVISIBLE);
+            viewHolder.h3.setVisibility(View.INVISIBLE);
+            viewHolder.h4.setVisibility(View.INVISIBLE);
+            viewHolder.h5.setVisibility(View.INVISIBLE);
+        }
 
     }
 }

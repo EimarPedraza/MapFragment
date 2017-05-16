@@ -33,6 +33,7 @@
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
+            android:shadowColor="@color/cardview_dark_background"
             android:id="@+id/ivCardName"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
