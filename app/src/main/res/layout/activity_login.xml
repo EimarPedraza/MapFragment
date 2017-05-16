@@ -26,20 +26,21 @@
                 android:layout_gravity="center"
                 android:src="@drawable/icon" />
 
-            <EditText style="@style/etLogReg"
-                android:id="@+id/etLogUser"
-                android:hint="@string/etuser"
-                android:inputType="textLongMessage"/>
-            <EditText style="@style/etLogReg"
-                android:id="@+id/etLogPass"
-                android:hint="@string/etpass"
-                android:inputType="textPassword"/>
-            <Button style="@style/bLog"
-                android:id="@+id/bLogLog"
-                android:text="@string/blogin"/>
-            <TextView style="@style/tvLog"
-                android:id="@+id/tvLogReg"
-                android:text="@string/tvregister"/>
+            <com.facebook.login.widget.LoginButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/bLoginFB"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"/>
+
+            <com.google.android.gms.common.SignInButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/bLoginGgl">
+
+            </com.google.android.gms.common.SignInButton>
 
         </LinearLayout>
     </ScrollView>

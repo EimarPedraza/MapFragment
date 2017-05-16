@@ -1,31 +1,49 @@
 package com.example.david.findberry;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText etUser,etPass;
-    Button bLog;
-    TextView tvReg;
-    String username="";
-    String password="";
-    String correo="";
-
-    //preferencias compartidas
-    SharedPreferences prefs;//defino mi objeto
-    SharedPreferences.Editor editor; //requiero un editor
+    private LoginButton loginButton;
+    private SignInButton gButton;
+    private int RC_SIGN_IN = 1;
+    private CallbackManager callbackManager;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private String TAG = "Firebase";
+    private GoogleApiClient mGoogleApiClient;
+    private int optlog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,108 +52,156 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        //preferencias
-        prefs = getSharedPreferences("preferences",MODE_PRIVATE);//nombre y modo
-        editor = prefs.edit(); //asi enlazo mis preferencias  y tengo acceso a dicha informacion
+        callbackManager = CallbackManager.Factory.create();
+        loginButton = (LoginButton)findViewById(R.id.bLoginFB);
+        gButton = (SignInButton)findViewById(R.id.bLoginGgl);
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Toast.makeText(LoginActivity.this,R.string.loginerror,Toast.LENGTH_SHORT).show();
+            }
+        }).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
 
 
-
-        etUser = (EditText)findViewById(R.id.etLogUser); //Enlace entre Xml y java
-        etPass = (EditText)findViewById(R.id.etLogPass);
-        bLog = (Button)findViewById(R.id.bLogLog);
-        tvReg = (TextView)findViewById(R.id.tvLogReg);
-
-
-        username=prefs.getString("username","");
-        password=prefs.getString("password","");
-        correo=prefs.getString("correo","");
-
-        if(prefs.getInt("login",-1)==1)
-        { //quiere decir que hay alguien logueado
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            intent.putExtra("username",username);
-            intent.putExtra("password",password);
-            intent.putExtra("correo",correo);
-            startActivity(intent);
-            finish();
-
-        }
-
-
-
-        tvReg.setOnClickListener(new View.OnClickListener() {
+        gButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivityForResult(intent,1234); //envio codigo de confirmacion
-                //finish();
+                signIn();
             }
         });
 
-        //etUser.setText(getIntent().getStringExtra("user"));
-        //etPass.setText(getIntent().getStringExtra("pass"));
-
-        bLog.setOnClickListener(new View.OnClickListener() {
+        loginButton.setReadPermissions(Arrays.asList("email"));
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onClick(View v) {
-                if(etUser.getText().toString().equals(username)){
-                    if(etPass.getText().toString().equals(password)){
-                        editor.putInt("login",1); //1 hay alguien logeado, 0 noo hay logueado
-                        editor.apply();
-                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                        intent.putExtra("username",username);
-                        intent.putExtra("correo",correo);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else if(etPass.getText().toString().equals("")){
-                        Toast.makeText(getApplicationContext(),R.string.tLogEmpty,Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),R.string.tLogWrongPass,Toast.LENGTH_SHORT).show();
-                    }
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    goMain2Activity();
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                else if(etUser.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),R.string.tLogEmpty,Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),R.string.tLogWrongUser,Toast.LENGTH_SHORT).show();
-                }
+                // ...
+            }
+        };
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+                //goMain2Activity();
+                Toast.makeText(getApplicationContext(),R.string.loginsuccess,Toast.LENGTH_SHORT).show();
+                optlog = 2;
+                //Log.d("Nombre",com.facebook.Profile.getCurrentProfile().getName());
+                //Log.d("Id",com.facebook.Profile.getCurrentProfile().getId());
+
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(),R.string.logincancel,Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getApplicationContext(),R.string.loginerror,Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+        optlog = 1;
+    }
 
-    //Este metodo me permite recibir la respuesta de la actividad que llame inicialmente
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    private void handleFacebookAccessToken(AccessToken accessToken) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),R.string.loginerror,Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void goMain2Activity() {
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==1234 && resultCode==RESULT_OK)
-        {
-            username = data.getExtras().getString("username"); //aqui almaceno lo que guarde desde register activity
-            password = data.getExtras().getString("password");//aqui almaceno lo que guarde desde register activity
-            correo   = data.getExtras().getString("correo");//aqui almaceno lo que guarde desde register activiy
-            //Log.d("nombre",data.getExtras().getString("username")); //me permite ver lo que estoy recibiendo pero en consola en vez de en la app como tal
-
-            editor.putString("username", username);
-            editor.putString("password", password);
-            editor.putString("correo", correo);
-
-
-
+        super.onActivityResult(requestCode, resultCode, data);
+        if(optlog != 1){
+            //Login facebook
+            callbackManager.onActivityResult(requestCode,resultCode,data);
         }
-        if (requestCode == 1234 && resultCode==RESULT_CANCELED)
-        {
-            Toast.makeText(this,getText(R.string.loginerror), Toast.LENGTH_SHORT).show();
-
+        else{
+            //Login google if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+            } else {
+                // Google Sign In failed, update UI appropriately
+                // ...
+            }
         }
-
     }
 
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(LoginActivity.this, R.string.loginerror, Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),R.string.loginsuccess,Toast.LENGTH_SHORT).show();
+                        }
+                        // ...
+                    }
+                });
+    }
 
 
 

@@ -68,10 +68,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //para seleccionar un tipo de mapa que quiero que se vea
-
-
-        // Add a marker in Sydney and move the camera
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng udea = new LatLng(6.268021,  -75.567693);
         map.addMarker(new MarkerOptions().position(udea).title("Udea").snippet(" Bloque Ingeniería "));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(udea,16));
