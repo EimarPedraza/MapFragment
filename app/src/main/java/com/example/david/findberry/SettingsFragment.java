@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -38,8 +40,7 @@ public class SettingsFragment extends Fragment {
 
         Button logout = (Button)view.findViewById(R.id.fsLogout);
         TextView nameuser = (TextView)view.findViewById(R.id.fsUser);
-
-        setScore(2.1,view);
+        ImageView profilePhoto = (ImageView)view.findViewById(R.id.ivPhoto);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -47,12 +48,15 @@ public class SettingsFragment extends Fragment {
             String name = user.getDisplayName();
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
+
+            Picasso.with(getContext()).load(photoUrl).into(profilePhoto);
+
             nameuser.setText(name);
+
 
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getToken() instead.
-            String uid = user.getUid();
         }else {
             logOut();
         }

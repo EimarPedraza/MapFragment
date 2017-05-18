@@ -1,11 +1,14 @@
 package com.example.david.findberry;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,22 +19,35 @@ import java.util.List;
 class RequestItems
 {
 
-    private int imagen;
+    private String image;
     private String text;
     private double score;
 
-    RequestItems(int imagen, String text,double score)
+    public RequestItems(){
+
+    }
+
+    RequestItems(String image, String text)
     {
-        this.imagen = imagen;
+        this.image = image;
+        this.text = text;
+
+    }
+
+
+    RequestItems(String image, String text,double score)
+    {
+        this.image = image;
         this.text = text;
         this.score = score;
 
     }
 
 
-    int getImagen() {
-        return imagen;
+    String getImage() {
+        return image;
     }
+
 
     public String getText() {
         return text;
@@ -47,13 +63,13 @@ class RequestItemsAdapter extends RecyclerView.Adapter<RequestItemsAdapter.Reque
 
     static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
-        ImageView imagen;
+        ImageView image;
         public TextView text;
 
 
         RequestItemsViewHolder(View v) {
             super(v);
-            imagen = (ImageView) v.findViewById(R.id.ivCardImage);
+            image = (ImageView) v.findViewById(R.id.ivCardImage);
             text = (TextView) v.findViewById(R.id.ivCardName);
         }
     }
@@ -76,7 +92,7 @@ class RequestItemsAdapter extends RecyclerView.Adapter<RequestItemsAdapter.Reque
 
     @Override
     public void onBindViewHolder(RequestItemsViewHolder viewHolder, int i) {
-        viewHolder.imagen.setImageResource(items.get(i).getImagen());
+        Picasso.with(viewHolder.image.getContext()).load(items.get(i).getImage()).into(viewHolder.image);
         viewHolder.text.setText(items.get(i).getText());
     }
 
@@ -87,7 +103,7 @@ class RequestItemsAdapter2 extends RecyclerView.Adapter<RequestItemsAdapter2.Req
 
     static class RequestItemsViewHolder extends RecyclerView.ViewHolder {
         // Campos respectivos de un item
-        ImageView imagen;
+        ImageView image;
         public TextView text;
         ImageView h1;
         ImageView h2;
@@ -98,7 +114,7 @@ class RequestItemsAdapter2 extends RecyclerView.Adapter<RequestItemsAdapter2.Req
 
         RequestItemsViewHolder(View v) {
             super(v);
-            imagen = (ImageView) v.findViewById(R.id.ivOpCardImage);
+            image = (ImageView) v.findViewById(R.id.ivOpCardImage);
             text = (TextView) v.findViewById(R.id.tvCard);
             h1 = (ImageView) v.findViewById(R.id.h1);
             h2 = (ImageView) v.findViewById(R.id.h2);
@@ -126,7 +142,7 @@ class RequestItemsAdapter2 extends RecyclerView.Adapter<RequestItemsAdapter2.Req
 
     @Override
     public void onBindViewHolder(RequestItemsViewHolder viewHolder, int i) {
-        viewHolder.imagen.setImageResource(items.get(i).getImagen());
+        Picasso.with(viewHolder.image.getContext()).load(items.get(i).getImage()).into(viewHolder.image);
         viewHolder.text.setText(items.get(i).getText());
 
         viewHolder.h1.setVisibility(View.VISIBLE);

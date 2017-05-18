@@ -2,7 +2,10 @@ package com.example.david.findberry;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,54 +43,69 @@ public class RequestFragment extends Fragment {
         // Required empty public constructor
     }
 
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_request, container, false);
+        final View view = inflater.inflate(R.layout.fragment_request, container, false);
 
-        List<RequestItems> requestItemsList = new ArrayList<>();
+        final List<RequestItems> requestItemsList = new ArrayList<>();
 
-        requestItemsList.add(new RequestItems(R.drawable.food,getString(R.string.foodmenu),0.0));
-        requestItemsList.add(new RequestItems(R.drawable.acad,getString(R.string.acadmenu),0.0));
-        requestItemsList.add(new RequestItems(R.drawable.ocio,getString(R.string.ociomenu),0.0));
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.rfRecycler);
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new RequestItemsAdapter(requestItemsList);
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("sides").child("images");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getContext(),SelectActivity.class);
-                switch (position) {
-                    case 0:
-                        intent.putExtra("op","food");
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        intent.putExtra("op","acad");
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        intent.putExtra("op","ocio");
-                        startActivity(intent);
-                        break;
-                }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                requestItemsList.add(new RequestItems(dataSnapshot.child("food").getValue().toString(),getString(R.string.foodmenu)));
+                requestItemsList.add(new RequestItems(dataSnapshot.child("acad").getValue().toString(),getString(R.string.acadmenu)));
+                requestItemsList.add(new RequestItems(dataSnapshot.child("fun").getValue().toString(),getString(R.string.ociomenu)));
+                recyclerView = (RecyclerView) view.findViewById(R.id.rfRecycler);
+                recyclerView.setHasFixedSize(true);
 
+                layoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter = new RequestItemsAdapter(requestItemsList);
+                recyclerView.setAdapter(adapter);
+
+
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getContext(),SelectActivity.class);
+                        switch (position) {
+                            case 0:
+                                intent.putExtra("op","food");
+                                startActivity(intent);
+                                break;
+                            case 1:
+                                intent.putExtra("op","acad");
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                intent.putExtra("op","fun");
+                                startActivity(intent);
+                                break;
+                        }
+
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+                }));
             }
 
             @Override
-            public void onLongItemClick(View view, int position) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
-        }));
+        });
+
 
         return view;
     }

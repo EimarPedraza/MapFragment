@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "62942054623",
+    "firebase_url": "https://animated-zenith-166221.firebaseio.com",
+    "project_id": "animated-zenith-166221",
+    "storage_bucket": "animated-zenith-166221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62942054623:android:6ad1b1f2c57a10e6",
+        "android_client_info": {
+          "package_name": "com.example.david.findberry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62942054623-a5vh356srgs7diadimu68rr5mtdu2tt2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.david.findberry",
+            "certificate_hash": "50abfd06a26a91b0879c8abc0440a1d77e4d5f43"
+          }
+        },
+        {
+          "client_id": "62942054623-7lk9h1qeat7kpknub25o0jgvvfs6r627.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVkmGBnPexeUvyWRS4awUIQVyGPwO6qOE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62942054623-7lk9h1qeat7kpknub25o0jgvvfs6r627.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

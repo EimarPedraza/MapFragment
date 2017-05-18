@@ -1,6 +1,8 @@
 package com.example.david.findberry;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +60,20 @@ public class DeliveryFragment extends Fragment {
         bRoute = (Button)view.findViewById(R.id.bRoute);
 
         List<DeliveryItems> deliveryItemsList = new ArrayList<>();
+
+        ImageView profilePhoto = (ImageView)view.findViewById(R.id.ivPhoto);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            Picasso.with(getContext()).load(photoUrl).into(profilePhoto);
+        }else {
+            logOut();
+        }
 
         deliveryItemsList.add(new DeliveryItems("La miguería","El Varo"));
         deliveryItemsList.add(new DeliveryItems("Arbóreo","David"));
@@ -185,6 +205,12 @@ public class DeliveryFragment extends Fragment {
             h4.setVisibility(View.INVISIBLE);
             h5.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void logOut() {
+        Intent intent = new Intent(getActivity(),LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
 }
