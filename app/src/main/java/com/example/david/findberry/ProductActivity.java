@@ -6,7 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,43 +23,50 @@ public class ProductActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    String flag;
+    String flag,data,name;
+    TextView title;
+
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+    List<ProductItems> productItemsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        title = (TextView)findViewById(R.id.tvTitle);
         Bundle bundle = getIntent().getExtras();
         flag = bundle.getString("op");
-        Log.d("Valor",flag);
+        data = bundle.getString("data");
+        title.setText(bundle.getString("title"));
 
-        List<ProductItems> productItemsList = new ArrayList<>();
-        switch (flag){
-            case "0":
-                productItemsList.add(new ProductItems("Pastel de pollo","$ 1800",""));
-                productItemsList.add(new ProductItems("Empanada ","$ 1800",""));
-                productItemsList.add(new ProductItems("Brownie","$ 2000",""));
-                break;
-            case "1":
-                productItemsList.add(new ProductItems("Palito de queso","$ 1500",""));
-                productItemsList.add(new ProductItems("Milo frío ","$ 2000",""));
-                productItemsList.add(new ProductItems("Buñuelo","$ 1500",""));
-                break;
-            case "2":
-                productItemsList.add(new ProductItems("S. Primavera","$ 4700",""));
-                productItemsList.add(new ProductItems("Crema tomate ","$ 1800",""));
-                productItemsList.add(new ProductItems("Batido energía","$ 5000",""));
-                break;
-        }
 
-        recyclerView = (RecyclerView)findViewById(R.id.paRecycler);
-        recyclerView.setHasFixedSize(true);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("sides").child(data).child(flag).child("products");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    productItemsList.add(new ProductItems(postSnapshot.child("nombre").getValue().toString(),postSnapshot.child("precio").getValue().toString(),""));
+                }
+                recyclerView = (RecyclerView)findViewById(R.id.paRecycler);
+                recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ProductItemsAdapter(productItemsList);
-        recyclerView.setAdapter(adapter);
+                adapter = new ProductItemsAdapter(productItemsList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

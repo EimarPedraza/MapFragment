@@ -26,6 +26,7 @@ public class SelectActivity extends AppCompatActivity {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     String data="",flag="";
+    List<RequestItems> requestItemsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,14 @@ public class SelectActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        final List<RequestItems> requestItemsList = new ArrayList<>();
 
         databaseReference = firebaseDatabase.getReference("sides").child(data);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("datos",dataSnapshot.getValue().toString());
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    requestItemsList.add(new RequestItems(postSnapshot.child("drawable").getValue().toString(),postSnapshot.child("nombre").getValue().toString(),Double.parseDouble(postSnapshot.child("score").getValue().toString())));
+                    requestItemsList.add(new RequestItems(postSnapshot.child("drawable").getValue().toString(),postSnapshot.child("nombre").getValue().toString(),Double.parseDouble(postSnapshot.child("score").getValue().toString()),postSnapshot.getKey()));
                 }
-                //Log.d("data",sides[i].toString());
                 recyclerView = (RecyclerView)findViewById(R.id.sRecycler);
                 recyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(SelectActivity.this);
@@ -62,23 +60,22 @@ public class SelectActivity extends AppCompatActivity {
                         switch (data){
                             case "food":
                                 intent = new Intent(SelectActivity.this,ProductActivity.class);
-                                flag = String.valueOf(position);
-                                intent.putExtra("op",flag);
-                                startActivity(intent);
                                 break;
                             case "acad":
                                 intent = new Intent(SelectActivity.this,ProductActivity.class);
-                                flag = String.valueOf(position);
-                                intent.putExtra("op",flag);
-                                startActivity(intent);
                                 break;
                             case "fun":
                                 intent = new Intent(SelectActivity.this,EventActivity.class);
-                                flag = String.valueOf(position);
-                                intent.putExtra("op",flag);
-                                startActivity(intent);
                                 break;
+                            default:
+                                intent = new Intent(SelectActivity.this,ProductActivity.class);
+
                         }
+                        flag = requestItemsList.get(position).getName();
+                        intent.putExtra("op",flag);
+                        intent.putExtra("data",data);
+                        intent.putExtra("title",requestItemsList.get(position).getText());
+                        startActivity(intent);
                     }
 
                     @Override

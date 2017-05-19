@@ -22,6 +22,7 @@ class RequestItems
     private String image;
     private String text;
     private double score;
+    private String name;
 
     public RequestItems(){
 
@@ -35,14 +36,22 @@ class RequestItems
     }
 
 
-    RequestItems(String image, String text,double score)
+    RequestItems(String image, String text,double score,String name)
     {
+        this.name = name;
         this.image = image;
         this.text = text;
         this.score = score;
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     String getImage() {
         return image;
