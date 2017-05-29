@@ -6,6 +6,7 @@
     <item name="black" type="color">#000000</item>
     <item name="backcolor" type="color">#ffec9f</item>
     <item name="backcard" type="color">#ffdc8f</item>
+    <item name="backcard2" type="color">#ffdc7f</item>
     <item name="navy" type="color">	#000080</item>
     <item name="darkblue" type="color">#00008b</item>
     <item name="mediumblue" type="color">#0000cd</item>

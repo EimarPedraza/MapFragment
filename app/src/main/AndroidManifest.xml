@@ -41,7 +41,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SelectActivity" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".EventActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

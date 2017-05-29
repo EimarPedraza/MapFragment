@@ -8,76 +8,123 @@
     android:background="@color/backcolor"
     tools:context="com.example.david.findberry.ProductActivity">
 
-    <TextView style="@style/titlestyle"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:id="@+id/tvTitle"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tvProduct"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="@string/tvPrice"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
+            <TextView style="@style/titlestyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:id="@+id/tvTitle"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="@string/tvQuantity"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/paRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/bConfirm"
-            android:id="@+id/opFAccept"
-            android:onClick="onClick"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="@string/bcancel"
-            android:id="@+id/opFCancel"
-            android:onClick="onClick"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvProduct"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvPrice"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvQuantity"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/paRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView style="@style/titlestyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvPriceside"
+                    android:textColor="@color/black"/>
+
+                <TextView style="@style/cellstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvPriced"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+            <EditText style="@style/cellstyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hProddesc"
+                android:id="@+id/etProddesc"
+                android:textColor="@color/black"/>
+
+
+            <EditText style="@style/cellstyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hELocation"
+                android:id="@+id/etElocation"
+                android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="@string/bConfirm"
+                    android:id="@+id/opFAccept"
+                    android:onClick="onClick"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="@string/bcancel"
+                    android:id="@+id/opFCancel"
+                    android:onClick="onClick"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

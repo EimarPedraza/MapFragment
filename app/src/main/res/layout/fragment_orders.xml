@@ -13,6 +13,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView style="@style/titlestyle"
+                android:layout_weight="2"
+                android:text="@string/status" />
 
             <TextView style="@style/titlestyle"
                 android:layout_weight="2"
@@ -20,7 +23,7 @@
 
             <TextView style="@style/titlestyle"
                 android:layout_weight="2"
-                android:text="@string/tvProduct" />
+                android:text="@string/tvSide" />
 
             <TextView style="@style/titlestyle"
                 android:layout_weight="2"
@@ -28,7 +31,7 @@
 
             <TextView style="@style/titlestyle"
                 android:layout_weight="2"
-                android:text="@string/tvQuantity" />
+                android:text="@string/tvTime" />
 
         </LinearLayout>
 
@@ -37,9 +40,45 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/foRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="3dp"
             android:scrollbars="vertical" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView style="@style/titlestyle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/tvProduct"
+                android:id="@+id/tvtpr"/>
+
+            <TextView style="@style/titlestyle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/tvPrice"
+                android:id="@+id/tvtp" />
+
+            <TextView style="@style/titlestyle"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/tvQuantity"
+                android:id="@+id/tvtQ"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/foRecycler2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:scrollbars="vertical" />
+
     </LinearLayout>
 
 </FrameLayout>

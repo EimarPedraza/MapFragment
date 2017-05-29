@@ -11,11 +11,15 @@
 
         <TextView style="@style/cellstyle"
             android:layout_weight="2"
+            android:id="@+id/ocstatus" />
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
             android:id="@+id/ocdeliverer" />
 
         <TextView style="@style/cellstyle"
             android:layout_weight="2"
-            android:id="@+id/ocproduct" />
+            android:id="@+id/ocside" />
 
         <TextView style="@style/cellstyle"
             android:layout_weight="2"
@@ -23,7 +27,7 @@
 
         <TextView style="@style/cellstyle"
             android:layout_weight="2"
-            android:id="@+id/ocquantity"/>
+            android:id="@+id/octime"/>
 
     </LinearLayout>
 

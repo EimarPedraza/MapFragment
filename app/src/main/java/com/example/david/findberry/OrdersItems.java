@@ -13,46 +13,34 @@ import java.util.List;
  */
 
 public class OrdersItems {
-    private int price,quantity;
-    private String deliverer,product;
+    private String status,deliverer,side,price,time;
 
-    public OrdersItems(int price, int quantity, String deliverer, String product) {
-        this.price = price;
-        this.quantity = quantity;
+    public OrdersItems(String status, String deliverer, String side, String price, String time) {
+        this.status = status;
         this.deliverer = deliverer;
-        this.product = product;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
+        this.side = side;
         this.price = price;
+        this.time = time;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public String getStatus() {
+        return status;
     }
 
     public String getDeliverer() {
         return deliverer;
     }
 
-    public void setDeliverer(String deliverer) {
-        this.deliverer = deliverer;
+    public String getSide() {
+        return side;
     }
 
-    public String getProduct() {
-        return product;
+    public String getPrice() {
+        return price;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public String getTime() {
+        return time;
     }
 }
 
@@ -65,18 +53,20 @@ class OrdersItemsAdapter extends RecyclerView.Adapter<OrdersItemsAdapter.OrdersI
 
     public static class OrdersItemsViewHolder extends RecyclerView.ViewHolder{
 
+        public TextView status;
         public TextView deliverer;
-        public TextView producto;
-        public TextView precio;
-        public TextView cantidad;
+        public TextView side;
+        public TextView price;
+        public TextView time;
 
         public OrdersItemsViewHolder(View v)
         {
             super(v);
+            status = (TextView) v.findViewById(R.id.ocstatus);
             deliverer = (TextView) v.findViewById(R.id.ocdeliverer);
-            producto = (TextView) v.findViewById(R.id.ocproduct);
-            precio   = (TextView) v.findViewById(R.id.ocprice);
-            cantidad = (TextView) v.findViewById(R.id.ocquantity);
+            side = (TextView) v.findViewById(R.id.ocside);
+            price   = (TextView) v.findViewById(R.id.ocprice);
+            time = (TextView) v.findViewById(R.id.octime);
         }
     }
 
@@ -88,10 +78,12 @@ class OrdersItemsAdapter extends RecyclerView.Adapter<OrdersItemsAdapter.OrdersI
 
     @Override
     public void onBindViewHolder(OrdersItemsViewHolder viewHolder, int i) {
+        String price = "$"+items.get(i).getPrice();
+        viewHolder.status.setText(items.get(i).getStatus());
         viewHolder.deliverer.setText(items.get(i).getDeliverer());
-        viewHolder.producto.setText(items.get(i).getProduct());
-        viewHolder.precio.setText("$"+String.valueOf(items.get(i).getPrice()));
-        viewHolder.cantidad.setText(String.valueOf(items.get(i).getQuantity()));
+        viewHolder.side.setText(items.get(i).getSide());
+        viewHolder.price.setText(price);
+        viewHolder.time.setText(String.valueOf(items.get(i).getTime()));
     }
 
     @Override

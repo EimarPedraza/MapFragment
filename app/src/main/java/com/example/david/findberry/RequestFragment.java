@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +47,7 @@ public class RequestFragment extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    List<RequestItems> requestItemsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,13 +55,13 @@ public class RequestFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_request, container, false);
 
-        final List<RequestItems> requestItemsList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("sides").child("images");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                requestItemsList.clear();
                 requestItemsList.add(new RequestItems(dataSnapshot.child("food").getValue().toString(),getString(R.string.foodmenu)));
                 requestItemsList.add(new RequestItems(dataSnapshot.child("acad").getValue().toString(),getString(R.string.acadmenu)));
                 requestItemsList.add(new RequestItems(dataSnapshot.child("fun").getValue().toString(),getString(R.string.ociomenu)));
@@ -96,6 +99,17 @@ public class RequestFragment extends Fragment {
                     @Override
                     public void onLongItemClick(View view, int position) {
 
+                        switch (position) {
+                            case 0:
+                                Snackbar.make(view,R.string.fooddesc, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                break;
+                            case 1:
+                                Snackbar.make(view,R.string.acaddesc, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                break;
+                            case 2:
+                                Snackbar.make(view,R.string.fundesc, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                                break;
+                        }
                     }
                 }));
             }

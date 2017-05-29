@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 
@@ -28,7 +29,7 @@ public class SettingsFragment extends Fragment {
 
 
     public SettingsFragment() {
-        // Required empty public constructor
+
     }
 
 

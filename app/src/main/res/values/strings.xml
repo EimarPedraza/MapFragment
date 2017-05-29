@@ -32,6 +32,7 @@
     <string name="tvProduct">Producto</string>
     <string name="tvPrice">Precio</string>
     <string name="tvQuantity">Cantidad</string>
+    <string name="tvTime">Hora</string>
     <string name="bConfirm">Confirmar pedido</string>
     <string name="event">Evento deseado</string>
     <string name="eventdesc">Descripción (Hora, fecha, tipo de evento, preferencias)</string>
@@ -44,5 +45,17 @@
     <string name="tvSeeR">Ver recorrido</string>
     <string name="bView">Ver</string>
     <string name="deliverer">Deliverer</string>
+    <string name="status">Estado</string>
     <string name="Logout">Cerrar Sesión</string>
+    <string name="fooddesc">Aquí podrás ver los restaurantes y cafés que más te gustan de la universidad.</string>
+    <string name="acaddesc">Aquí podrás ver las papelerías con los artículos académicos que prefieras.</string>
+    <string name="fundesc">Aquí podrás ver los lugares donde venden boletería para eventos y cine.</string>
+    <string name="selectdesc">Aquí harás tus pedidos. Mantén presionado sobre cada opción para ver la información completa.</string>
+    <string name="deliverydesc">Aquí podrás inscribirte para enviar pedidos y observar tu panel de Deliverer.</string>
+    <string name="ordersdesc">Aquí podrás ver los pedidos que tienes actualmente.</string>
+    <string name="mapdesc">Aquí podrás ver la ubicación de los locales de preferencia.</string>
+    <string name="configdesc">Aquí podrás ver tu información de perfil y tu puntaje como usuario.</string>
+    <string name="tvPriceside">Precio del domicilio:\u0020</string>
+    <string name="hProddesc">Descripción adicional del prducto</string>
+    <string name="hELocation">Tu ubicación exacta</string>
 </resources>

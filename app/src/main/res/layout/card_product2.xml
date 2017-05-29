@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backcard2">
+
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/tvProduct" />
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/tvPrice" />
+
+        <TextView style="@style/cellstyle"
+            android:layout_weight="2"
+            android:id="@+id/tvQuantity" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

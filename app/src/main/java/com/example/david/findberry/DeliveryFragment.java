@@ -1,21 +1,28 @@
 package com.example.david.findberry;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,6 +43,8 @@ public class DeliveryFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     TextView tvProduct,tvProductt,tvSide,tvSidet,tvPrice,tvPricet,tvRoutet,tvUser,tvUsert;
     Button bRoute;
@@ -48,6 +57,7 @@ public class DeliveryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_delivery, container, false);
+        //Toast.makeText(getContext(),R.string.deliverydesc,Toast.LENGTH_LONG).show();
         tvUser = (TextView)view.findViewById(R.id.tvUser);
         tvUsert = (TextView)view.findViewById(R.id.tvUsert);
         tvProduct = (TextView)view.findViewById(R.id.tvProduct);
@@ -64,12 +74,14 @@ public class DeliveryFragment extends Fragment {
         ImageView profilePhoto = (ImageView)view.findViewById(R.id.ivPhoto);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
         if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
             String email = user.getEmail();
+            String id = user.getUid();
             Uri photoUrl = user.getPhotoUrl();
-
             Picasso.with(getContext()).load(photoUrl).into(profilePhoto);
         }else {
             logOut();
@@ -88,7 +100,6 @@ public class DeliveryFragment extends Fragment {
         adapter = new DeliveryItemsAdapter(deliveryItemsList);
         recyclerView.setAdapter(adapter);
 
-        setScore(4.4,view);
 
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
@@ -197,6 +208,13 @@ public class DeliveryFragment extends Fragment {
             h3.setVisibility(View.INVISIBLE);
             h4.setVisibility(View.INVISIBLE);
             h5.setVisibility(View.INVISIBLE);
+        }
+        else if(score == 0){
+            h1.setVisibility(View.GONE);
+            h2.setVisibility(View.GONE);
+            h3.setVisibility(View.GONE);
+            h4.setVisibility(View.GONE);
+            h5.setVisibility(View.GONE);
         }
         else {
             h1.setImageResource(R.drawable.ic_favorite_black_24dp);

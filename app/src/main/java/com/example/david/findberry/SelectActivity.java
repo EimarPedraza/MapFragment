@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SelectActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class SelectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    String data="",flag="";
+    String data="",flag="",price="";
     List<RequestItems> requestItemsList = new ArrayList<>();
 
     @Override
@@ -40,12 +41,14 @@ public class SelectActivity extends AppCompatActivity {
 
 
         databaseReference = firebaseDatabase.getReference("sides").child(data);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.orderByChild("score").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                requestItemsList.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    requestItemsList.add(new RequestItems(postSnapshot.child("drawable").getValue().toString(),postSnapshot.child("nombre").getValue().toString(),Double.parseDouble(postSnapshot.child("score").getValue().toString()),postSnapshot.getKey()));
+                    requestItemsList.add(new RequestItems(postSnapshot.child("drawable").getValue().toString(),postSnapshot.child("nombre").getValue().toString(),Double.parseDouble(postSnapshot.child("score").getValue().toString()),postSnapshot.getKey(),postSnapshot.child("precio").getValue().toString()));
                 }
+                Collections.reverse(requestItemsList);
                 recyclerView = (RecyclerView)findViewById(R.id.sRecycler);
                 recyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(SelectActivity.this);
@@ -56,24 +59,11 @@ public class SelectActivity extends AppCompatActivity {
                 recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Intent intent;
-                        switch (data){
-                            case "food":
-                                intent = new Intent(SelectActivity.this,ProductActivity.class);
-                                break;
-                            case "acad":
-                                intent = new Intent(SelectActivity.this,ProductActivity.class);
-                                break;
-                            case "fun":
-                                intent = new Intent(SelectActivity.this,EventActivity.class);
-                                break;
-                            default:
-                                intent = new Intent(SelectActivity.this,ProductActivity.class);
-
-                        }
+                        Intent intent = new Intent(SelectActivity.this,ProductActivity.class);
                         flag = requestItemsList.get(position).getName();
                         intent.putExtra("op",flag);
                         intent.putExtra("data",data);
+                        intent.putExtra("price",requestItemsList.get(position).getPrice());
                         intent.putExtra("title",requestItemsList.get(position).getText());
                         startActivity(intent);
                     }
