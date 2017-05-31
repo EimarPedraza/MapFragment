@@ -1,8 +1,20 @@
 package com.example.david.findberry;
 
+import android.*;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Build;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,20 +37,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    String flag,data,uid,pricel,titlel,ulugar,descrip;
+    String flag,data,uid,uname,pricel,titlel,ulugar,descrip;
     TextView title,price;
     AlertDialog.Builder builder1;
     AlertDialog alert11;
     Double precio;
+    Double lat,lng;
     String pedido;
     EditText desc,elugar;
 
@@ -69,6 +84,7 @@ public class ProductActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            uname = user.getDisplayName();
             uid = user.getUid();
         }
 
@@ -171,11 +187,15 @@ public class ProductActivity extends AppCompatActivity {
                             databaseReference.child(pedido).child("list").child(pass).child("cantidad").setValue("1");
                             databaseReference.child(pedido).child("precio").setValue(precio);
                             databaseReference.child(pedido).child("uid").setValue(uid);
+                            databaseReference.child(pedido).child("uname").setValue(uname);
                             databaseReference.child(pedido).child("lugar").setValue(titlel);
                             databaseReference.child(pedido).child("hora").setValue(Calendar.getInstance().getTimeInMillis()/60000);
                             databaseReference.child(pedido).child("estado").setValue(0);
                             databaseReference.child(pedido).child("ulugar").setValue(ulugar);
                             databaseReference.child(pedido).child("desc").setValue(descrip);
+                            databaseReference.child(pedido).child("ulat").setValue(lat);
+                            databaseReference.child(pedido).child("ulng").setValue(lng);
+
                             Toast.makeText(getApplicationContext(),"Pedido aceptado",Toast.LENGTH_SHORT).show();
                             finish();
                             dialog.cancel();
@@ -196,6 +216,13 @@ public class ProductActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"No ha seleccionado ningún producto.",Toast.LENGTH_SHORT).show();
         }
 
+
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ProductActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+        } else {
+            locationStart();
+        }
+
     }
 
     public void onClick(View view){
@@ -206,6 +233,97 @@ public class ProductActivity extends AppCompatActivity {
             case R.id.opFCancel:
                 finish();
                 break;
+        }
+    }
+
+
+    private void locationStart() {
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        ProductActivity.Localizacion Local = new ProductActivity.Localizacion();
+        Local.setMainActivity(this);
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!gpsEnabled) {
+            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(settingsIntent);
+        }
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            return;
+        }
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, Local);
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1000) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationStart();
+            }
+        }
+    }
+
+    /* Aqui empieza la Clase Localizacion */
+    private class Localizacion implements LocationListener {
+        ProductActivity mainActivity;
+
+        public ProductActivity getMainActivity() {
+            return mainActivity;
+        }
+
+        void setMainActivity(ProductActivity mainActivity) {
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
+            // debido a la deteccion de un cambio de ubicacion
+            lat = loc.getLatitude();
+            lng = loc.getLongitude();
+            String Text = "Mi ubicacion actual es: " + "\n Lat = "
+                    + loc.getLatitude() + "\n Long = " + loc.getLongitude();
+            this.mainActivity.setLocation(loc);
+            //Toast.makeText(getApplicationContext(),Text,Toast.LENGTH_LONG).show();
+        }
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es desactivado
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es activado
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            switch (status) {
+                case LocationProvider.AVAILABLE:
+                    Log.d("debug", "LocationProvider.AVAILABLE");
+                    break;
+                case LocationProvider.OUT_OF_SERVICE:
+                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
+                    break;
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
+                    break;
+            }
+        }
+    }
+
+    public void setLocation(Location loc) {
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+                if (!list.isEmpty()) {
+                    Address address = list.get(0);
+                    //Toast.makeText(getApplicationContext(),"Mi dirección es: \n" + address.getAddressLine(0),Toast.LENGTH_SHORT).show();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

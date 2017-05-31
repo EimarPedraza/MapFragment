@@ -37,7 +37,7 @@
     <string name="event">Evento deseado</string>
     <string name="eventdesc">Descripción (Hora, fecha, tipo de evento, preferencias)</string>
     <string name="bConfirmEvent">Confirmar</string>
-    <string name="tvPending">Pedidos Pendientes</string>
+    <string name="tvPending">Pedidos</string>
     <string name="tvUser">Usuario</string>
     <string name="tvSeeP">Ver pedido</string>
     <string name="tvSide">Lugar</string>
@@ -58,4 +58,5 @@
     <string name="tvPriceside">Precio del domicilio:\u0020</string>
     <string name="hProddesc">Descripción adicional del prducto</string>
     <string name="hELocation">Tu ubicación exacta</string>
+    <string name="bcancelr">Cancelar Pedido</string>
 </resources>

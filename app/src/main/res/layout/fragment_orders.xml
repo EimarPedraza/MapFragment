@@ -53,21 +53,24 @@
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:text="@string/tvProduct"
-                android:id="@+id/tvtpr"/>
+                android:id="@+id/tvtpr"
+                android:visibility="gone"/>
 
             <TextView style="@style/titlestyle"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:text="@string/tvPrice"
-                android:id="@+id/tvtp" />
+                android:id="@+id/tvtp"
+                android:visibility="gone" />
 
             <TextView style="@style/titlestyle"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:text="@string/tvQuantity"
-                android:id="@+id/tvtQ"/>
+                android:id="@+id/tvtQ"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -77,7 +80,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:visibility="gone"/>
+        <Button style="@style/bLog"
+            android:text="@string/bcancelr"
+            android:id="@+id/bCancel"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

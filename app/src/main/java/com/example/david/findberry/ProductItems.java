@@ -85,7 +85,14 @@ class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapter.Produ
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int position = viewHolder.getAdapterPosition();
-                items.get(position).setQuantity(s.toString());
+                if(s.toString().equals("")){
+                    items.get(position).setQuantity("0");
+                }else if(Integer.parseInt(s.toString())>9){
+                    viewHolder.quantity.setText("9");
+                    items.get(position).setQuantity("9");
+                }else {
+                    items.get(position).setQuantity(s.toString());
+                }
             }
 
             @Override

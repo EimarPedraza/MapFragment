@@ -18,12 +18,14 @@ public class DeliveryItems {
 
     private String order;
     private String user;
+    private String time;
 
 
     //Constructor
-    public DeliveryItems(String order, String user) {
+    public DeliveryItems(String order, String user, String time) {
         this.order = order;
         this.user = user;
+        this.time = time;
     }
 
     public String getOrder() {
@@ -32,6 +34,10 @@ public class DeliveryItems {
 
     public String getUser() {
         return user;
+    }
+
+    public String getTime() {
+        return time;
     }
 
 }
@@ -47,14 +53,14 @@ class DeliveryItemsAdapter extends RecyclerView.Adapter<DeliveryItemsAdapter.Del
 
         public TextView order;
         public TextView user;
-        public Button quantity;
+        public TextView price;
 
         public DeliveryItemsViewHolder(View v)
         {
             super(v);
             order = (TextView) v.findViewById(R.id.tvRequest);
             user   = (TextView) v.findViewById(R.id.tvUser);
-            quantity = (Button) v.findViewById(R.id.bView);
+            price = (TextView) v.findViewById(R.id.tvPrice);
         }
     }
 
@@ -66,8 +72,10 @@ class DeliveryItemsAdapter extends RecyclerView.Adapter<DeliveryItemsAdapter.Del
 
     @Override
     public void onBindViewHolder(DeliveryItemsViewHolder viewHolder, int i) {
+        String pr = items.get(i).getTime()+"min";
         viewHolder.order.setText(items.get(i).getOrder());
         viewHolder.user.setText(items.get(i).getUser());
+        viewHolder.price.setText(pr);
     }
 
     @Override

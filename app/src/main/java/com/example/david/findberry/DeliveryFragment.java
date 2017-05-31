@@ -4,6 +4,7 @@ package com.example.david.findberry;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -21,11 +22,14 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -44,19 +48,23 @@ public class DeliveryFragment extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference,databaseReference2;
 
     TextView tvProduct,tvProductt,tvSide,tvSidet,tvPrice,tvPricet,tvRoutet,tvUser,tvUsert;
     Button bRoute;
     int pos;
+    List<DeliveryItems> deliveryItemsList = new ArrayList<>();
+    String id;
+    List<String> ids = new ArrayList<>();
+    List<String> names = new ArrayList<>();
 
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_delivery, container, false);
+        final View view = inflater.inflate(R.layout.fragment_delivery, container, false);
         //Toast.makeText(getContext(),R.string.deliverydesc,Toast.LENGTH_LONG).show();
         tvUser = (TextView)view.findViewById(R.id.tvUser);
         tvUsert = (TextView)view.findViewById(R.id.tvUsert);
@@ -69,39 +77,62 @@ public class DeliveryFragment extends Fragment {
         tvRoutet = (TextView)view.findViewById(R.id.tvRoutet);
         bRoute = (Button)view.findViewById(R.id.bRoute);
 
-        List<DeliveryItems> deliveryItemsList = new ArrayList<>();
 
         ImageView profilePhoto = (ImageView)view.findViewById(R.id.ivPhoto);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
             String email = user.getEmail();
-            String id = user.getUid();
+            id = user.getUid();
             Uri photoUrl = user.getPhotoUrl();
             Picasso.with(getContext()).load(photoUrl).into(profilePhoto);
         }else {
             logOut();
         }
 
-        deliveryItemsList.add(new DeliveryItems("La miguería","El Varo"));
-        deliveryItemsList.add(new DeliveryItems("Arbóreo","David"));
+        databaseReference = firebaseDatabase.getReference("orders");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                deliveryItemsList.clear();
+                ids.clear();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    if(snapshot.child("hora").exists()&&
+                            snapshot.child("lugar").exists()&&
+                            snapshot.child("uname").exists()&&
+                            snapshot.child("").exists()&&
+                            snapshot.child("").exists()){
+                        long time = Calendar.getInstance().getTimeInMillis()/60000-Long.parseLong(snapshot.child("hora").getValue().toString());
+                        deliveryItemsList.add(new DeliveryItems(snapshot.child("lugar").getValue().toString(),snapshot.child("uname").getValue().toString(),String.valueOf(time)));
+
+                    }
+                }
+                recyclerView = (RecyclerView) view.findViewById(R.id.fdRecycler);
+                recyclerView.setHasFixedSize(true);
+
+                layoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(layoutManager);
+
+                adapter = new DeliveryItemsAdapter(deliveryItemsList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.fdRecycler);
-        recyclerView.setHasFixedSize(true);
-
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new DeliveryItemsAdapter(deliveryItemsList);
-        recyclerView.setAdapter(adapter);
 
 
 
+        /*deliveryItemsList.add(new DeliveryItems("La miguería","El Varo","2000"));
+        deliveryItemsList.add(new DeliveryItems("Arbóreo","David","3000"));
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -136,7 +167,7 @@ public class DeliveryFragment extends Fragment {
             public void onLongItemClick(View view, int position) {
 
             }
-        }));
+        }));*/
         return view;
     }
 
@@ -230,5 +261,6 @@ public class DeliveryFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
+
 
 }

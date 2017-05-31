@@ -7,17 +7,16 @@
 
 
     <TextView style="@style/cellstyle"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:id="@+id/tvRequest" />
 
     <TextView style="@style/cellstyle"
         android:layout_weight="1"
         android:id="@+id/tvUser" />
 
-    <Button style="@style/cellstyle"
+    <TextView style="@style/cellstyle"
         android:layout_weight="1"
-        android:id="@+id/bView"
-        android:text="@string/bView" />
+        android:id="@+id/tvPrice" />
 
 
 </LinearLayout>
