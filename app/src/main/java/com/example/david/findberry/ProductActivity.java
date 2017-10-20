@@ -193,8 +193,10 @@ public class ProductActivity extends AppCompatActivity {
                             databaseReference.child(pedido).child("estado").setValue(0);
                             databaseReference.child(pedido).child("ulugar").setValue(ulugar);
                             databaseReference.child(pedido).child("desc").setValue(descrip);
-                            databaseReference.child(pedido).child("ulat").setValue(lat);
-                            databaseReference.child(pedido).child("ulng").setValue(lng);
+                            if(lat != null && lng != null){
+                                databaseReference.child(pedido).child("ulat").setValue(lat);
+                                databaseReference.child(pedido).child("ulng").setValue(lng);
+                            }
 
                             Toast.makeText(getApplicationContext(),"Pedido aceptado",Toast.LENGTH_SHORT).show();
                             finish();
@@ -217,12 +219,6 @@ public class ProductActivity extends AppCompatActivity {
         }
 
 
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ProductActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-        } else {
-            locationStart();
-        }
-
     }
 
     public void onClick(View view){
@@ -236,94 +232,4 @@ public class ProductActivity extends AppCompatActivity {
         }
     }
 
-
-    private void locationStart() {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        ProductActivity.Localizacion Local = new ProductActivity.Localizacion();
-        Local.setMainActivity(this);
-        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
-            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(settingsIntent);
-        }
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-            return;
-        }
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, Local);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, Local);
-
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1000) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationStart();
-            }
-        }
-    }
-
-    /* Aqui empieza la Clase Localizacion */
-    private class Localizacion implements LocationListener {
-        ProductActivity mainActivity;
-
-        public ProductActivity getMainActivity() {
-            return mainActivity;
-        }
-
-        void setMainActivity(ProductActivity mainActivity) {
-            this.mainActivity = mainActivity;
-        }
-
-        @Override
-        public void onLocationChanged(Location loc) {
-            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
-            // debido a la deteccion de un cambio de ubicacion
-            lat = loc.getLatitude();
-            lng = loc.getLongitude();
-            String Text = "Mi ubicacion actual es: " + "\n Lat = "
-                    + loc.getLatitude() + "\n Long = " + loc.getLongitude();
-            this.mainActivity.setLocation(loc);
-            //Toast.makeText(getApplicationContext(),Text,Toast.LENGTH_LONG).show();
-        }
-        @Override
-        public void onProviderDisabled(String provider) {
-            // Este metodo se ejecuta cuando el GPS es desactivado
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            // Este metodo se ejecuta cuando el GPS es activado
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            switch (status) {
-                case LocationProvider.AVAILABLE:
-                    Log.d("debug", "LocationProvider.AVAILABLE");
-                    break;
-                case LocationProvider.OUT_OF_SERVICE:
-                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
-                    break;
-                case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
-                    break;
-            }
-        }
-    }
-
-    public void setLocation(Location loc) {
-        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
-            try {
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
-                if (!list.isEmpty()) {
-                    Address address = list.get(0);
-                    //Toast.makeText(getApplicationContext(),"Mi dirección es: \n" + address.getAddressLine(0),Toast.LENGTH_SHORT).show();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

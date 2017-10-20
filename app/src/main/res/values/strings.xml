@@ -59,4 +59,19 @@
     <string name="hProddesc">Descripción adicional del prducto</string>
     <string name="hELocation">Tu ubicación exacta</string>
     <string name="bcancelr">Cancelar Pedido</string>
+    <string name="myLoc">Mi ubicación</string>
+    <string name="currentLoc">Ubicación actual</string>
+    <string name="currentOrder">Actualmente tienes un pedido aquí.</string>
+    <string name="cancelOrder">¿Está seguro que desea cancelar el pedido? Recuerda que esto podrá afectar tu puntaje de usuario.</string>
+    <string name="userNoLoc">No se pudo obtener la ubicación del usuario.</string>
+    <string name="notDeliv">Lo sentimos, aún no eres Deliverer, por lo tanto no puedes acceder a esta sección, sin embargo puedes serlo con sólo aceptar el mensaje al inicio de la aplicación, y automáticamente te generará un nombre ¿Qué esperas para ser Deliverer?</string>
+    <string name="tyforDel">Gracias por ser Deliverer, ahora podrás ver los pedidos actuales y comenzar a ganar puntos por hacer entregas.</string>
+    <string name="acccept">Aceptar pedido</string>
+    <string name="finalize">Consolidar pedido</string>
+    <string name="cancel">Cancelar</string>
+    <string name="sendeval">Enviar evaluación</string>
+    <string name="evalinfo">¡Gracias por utilizar FindBerry! ahora te solicitamos que por favor evalúes nuestro deliverer con el fin de prestarte un mejor servicio, esto sólo te tomará un click.</string>
+    <string name="evalinfo2">¡Gracias por utilizar FindBerry! ahora te solicitamos que por favor evalúes el usuario con el fin de prestarte un mejor servicio, esto sólo te tomará un click.</string>
+    <string name="topDeliv">Top Deliverers</string>
+    <string name="topUsers">Top Users</string>
 </resources>

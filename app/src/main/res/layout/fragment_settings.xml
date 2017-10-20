@@ -7,79 +7,107 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:src="@drawable/pr"
-            android:id="@+id/ivPhoto"/>
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/fsUser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:src="@drawable/pr"
+                android:id="@+id/ivPhoto"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+
+                <TextView
+                    android:id="@+id/fsUser"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/h1"
-                    android:src="@drawable/ic_favorite_black_24dp"/>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h1"
+                        android:src="@drawable/ic_favorite_black_24dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h2"
+                        android:src="@drawable/ic_favorite_black_24dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h3"
+                        android:src="@drawable/ic_favorite_black_24dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h4"
+                        android:src="@drawable/ic_favorite_black_24dp"/>
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/h5"
+                        android:src="@drawable/ic_favorite_black_24dp"/>
+
+                </LinearLayout>
+
+                <TextView style="@style/cellstyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/h2"
-                    android:src="@drawable/ic_favorite_black_24dp"/>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:id="@+id/delivDo"/>
+                <TextView style="@style/cellstyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/h3"
-                    android:src="@drawable/ic_favorite_black_24dp"/>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:id="@+id/userDo"/>
+
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/h4"
-                    android:src="@drawable/ic_favorite_black_24dp"/>
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/h5"
-                    android:src="@drawable/ic_favorite_black_24dp"/>
+                    android:text="@string/Logout"
+                    android:id="@+id/fsLogout"
+                    android:layout_gravity="end"/>
+
 
             </LinearLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Logout"
-                android:id="@+id/fsLogout"
-                android:layout_gravity="end"/>
 
 
         </LinearLayout>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/topDeliv"
+            android:id="@+id/topDeliv"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/topUsers"
+            android:id="@+id/topUser"/>
+
     </LinearLayout>
+
 
 </FrameLayout>

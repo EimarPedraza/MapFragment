@@ -2,10 +2,13 @@ package com.example.david.findberry;
 
 import android.*;
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -18,8 +21,9 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +31,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     String name,email,id;
     Double latitude=0.0,longitude = 0.0;
-    Bundle bundle = new Bundle();
+    String dname;
+    AlertDialog.Builder builder;
+    AlertDialog dialog;
+    int flag2 = 0;
+    Fragment fragment = new OrdersFragment();
 
     final int icons[] = new int[]{
             R.drawable.ic_home_black_24dp,
@@ -81,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -95,22 +104,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             logOut();
         }
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.child(id).exists()){
-                    databaseReference.child(id).child("name").setValue(name);
-                    databaseReference.child(id).child("mail").setValue(email);
-                    databaseReference.child(id).child("score").setValue("5");
-                    databaseReference.child(id).child("nscore").setValue("1");
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -158,6 +151,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.child(id).exists()){
+                    databaseReference.child(id).child("name").setValue(name);
+                    databaseReference.child(id).child("mail").setValue(email);
+                    databaseReference.child(id).child("score").setValue("5");
+                    databaseReference.child(id).child("nscore").setValue("1");
+                }else{
+                    if(!dataSnapshot.child(id).child("dname").exists()){
+                        builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("Hemos detectado que no eres deliverer, para usar la ventana de deliverer debes registrarte, ¿deseas registrarte como deliverer?");
+                        builder.setCancelable(true);
+                        ;
+                        builder.setPositiveButton(
+                                "Sí",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getApplicationContext(),R.string.tyforDel,Toast.LENGTH_LONG).show();
+                                        Log.d("passwd",PasswordGenerator.getUsername());
+                                        dname = PasswordGenerator.getUsername();
+                                        int flag = 1;
+                                        while(flag == 1){
+                                            flag = 0;
+                                            dname = PasswordGenerator.getUsername();
+                                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                                if(snapshot.child("dname").exists()){
+                                                    if(snapshot.child("dname").getValue().toString().equals(dname)){
+                                                        flag=1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        databaseReference.child(id).child("dname").setValue(dname);
+                                        databaseReference.child(id).child("dscore").setValue("5");
+                                        databaseReference.child(id).child("dnscore").setValue("1");
+                                        mViewPager.setCurrentItem(1);
+                                    }
+                                });
+
+                        builder.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        dialog = builder.create();
+                        dialog.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -171,26 +224,40 @@ public class MainActivity extends AppCompatActivity {
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private SectionsPagerAdapter(FragmentManager fm) {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
+            final Fragment result;
+            Bundle bundle = new Bundle();
+            bundle.putDouble("lat",latitude);
+            bundle.putDouble("lng",longitude);
+            bundle.putString("id",id);
             switch(position){
                 case 0:
-
-                    return new RequestFragment();
+                    result =  new RequestFragment();
+                    break;
                 case 1:
-                    return new DeliveryFragment();
+                    result = new DeliveryFragment();
+                    break;
                 case 2:
-                    return new OrdersFragment();
+                    result = new  OrdersFragment();
+                    result.setArguments(bundle);
+                    break;
                 case 3:
-                    return new MapFragment();
+                    result = new MapFragment();
+                    result.setArguments(bundle);
+                    break;
                 case 4:
-                    return new SettingsFragment();
-                default: return null;
+                    result = new SettingsFragment();
+                    break;
+                default: result = null;
             }
+            return result;
+
         }
 
         @Override
@@ -251,14 +318,10 @@ public class MainActivity extends AppCompatActivity {
 
             latitude=loc.getLatitude();
             longitude=loc.getLongitude();
-
-            bundle.putString("latitude", latitude.toString());
-            bundle.putString("longitude", longitude.toString());
-            String Text = "Mi ubicacion actual es: " + "\n Lat = "
-                    + loc.getLatitude() + "\n Long = " + loc.getLongitude();
-            //Toast.makeText(getApplicationContext(),Text,Toast.LENGTH_LONG).show();
             databaseReference.child(id).child("lat").setValue(loc.getLatitude());
             databaseReference.child(id).child("lng").setValue(loc.getLongitude());
+
+
         }
 
         @Override

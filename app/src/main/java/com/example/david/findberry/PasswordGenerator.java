@@ -8,6 +8,12 @@ public class PasswordGenerator {
 
     public static String MINUSCULAS = "abcdefghijklmnopqrstuvwxy";
 
+    public static String VOCALES = "aeiou";
+
+    public static String CONSONANTESMIN = "bcdfghjklmnpqrstvwxyz";
+
+    public static String CONSONANTESMAY = "BCDFGHJKLMNPQRSTVWXYZ";
+
     public static String ESPECIALES = "ñÑ";
 
     //
@@ -31,5 +37,25 @@ public class PasswordGenerator {
         }
 
         return pswd;
+    }
+
+
+    public static String getUsername(String key, String key2, String key3,String key4) {
+        String pswd = "";
+
+        pswd+=(key2.charAt((int)(Math.random() * key2.length())));
+        pswd+=(key3.charAt((int)(Math.random() * key3.length())));
+        pswd+=(key.charAt((int)(Math.random() * key.length())));
+        pswd+=(key3.charAt((int)(Math.random() * key3.length())));
+        pswd+=(key.charAt((int)(Math.random() * key.length())));
+        pswd+=(key3.charAt((int)(Math.random() * key3.length())));
+        pswd+=(key4.charAt((int)(Math.random() * key4.length())));
+        pswd+=(key4.charAt((int)(Math.random() * key4.length())));
+
+        return pswd;
+    }
+
+    public static String getUsername() {
+        return getUsername(CONSONANTESMIN,CONSONANTESMAY,VOCALES,NUMEROS);
     }
 }

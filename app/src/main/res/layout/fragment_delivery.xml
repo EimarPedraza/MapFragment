@@ -3,17 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/fDelivery"
     tools:context="com.example.david.findberry.DeliveryFragment"
     android:background="@color/backcolor">
 
+    <TextView style="@style/titlestyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/notDeliv"
+        android:id="@+id/delivInfo"
+        android:visibility="gone" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/fdScroll">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,6 +51,7 @@
                         android:textSize="20sp"
                         android:textColor="@color/black"
                         android:text="Deliverer 1"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -107,100 +118,61 @@
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/fdRecycler">
 
             </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView style="@style/titlestyle"
-                    android:id="@+id/tvUsert"
-                    android:layout_weight="1"
-                    android:text="@string/tvUser"
-                    android:visibility="invisible" />
-
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView style="@style/cellstyle"
-                    android:id="@+id/tvUser"
-                    android:layout_weight="2"
-                    android:text="@string/tvSeeP"
-                    android:visibility="invisible" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sideDesc"/>
+                <TextView style="@style/cellstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reqDesc"/>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView style="@style/titlestyle"
-                    android:id="@+id/tvProductt"
-                    android:layout_weight="1"
-                    android:text="@string/tvProduct"
-                    android:visibility="invisible" />
+                android:id="@+id/llTitle"
+                android:visibility="gone">
 
-                <TextView style="@style/cellstyle"
-                    android:id="@+id/tvProduct"
+
+                <TextView style="@style/titlestyle"
+                    android:layout_width="0dp"
                     android:layout_weight="2"
-                    android:text="@string/tvSeeP"
-                    android:visibility="invisible" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvProduct"/>
+
+                <TextView style="@style/titlestyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvPrice"/>
+
+                <TextView style="@style/titlestyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvQuantity"/>
 
             </LinearLayout>
-
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView style="@style/titlestyle"
-                    android:id="@+id/tvSidet"
-                    android:layout_weight="1"
-                    android:text="@string/tvSide"
-                    android:visibility="invisible" />
-
-                <TextView style="@style/cellstyle"
-                    android:id="@+id/tvSide"
-                    android:layout_weight="2"
-                    android:text="@string/tvSeeP"
-                    android:visibility="invisible" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView style="@style/titlestyle"
-                android:id="@+id/tvPricet"
-                android:layout_weight="1"
-                android:text="@string/tvPrice"
-                android:visibility="invisible" />
-
-            <TextView style="@style/cellstyle"
-                android:id="@+id/tvPrice"
-                android:layout_weight="2"
-                android:text="@string/tvSeeP"
-                android:visibility="invisible" />
-
-        </LinearLayout>
-            <LinearLayout
+                android:id="@+id/fdRecycler2"/>
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView style="@style/titlestyle"
-                    android:id="@+id/tvRoutet"
-                    android:layout_weight="1"
-                    android:text="@string/tvRoute"
-                    android:visibility="invisible" />
+                android:id="@+id/bAccept"
+                android:text="@string/acccept"
+                android:visibility="gone"/>
 
-                <Button style="@style/cellstyle"
-                    android:id="@+id/bRoute"
-                    android:layout_weight="2"
-                    android:text="@string/tvSeeR"
-                    android:visibility="invisible" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

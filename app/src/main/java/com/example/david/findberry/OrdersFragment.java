@@ -2,6 +2,7 @@ package com.example.david.findberry;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -53,9 +54,11 @@ public class OrdersFragment extends Fragment {
     List<ProductItems> list2 = new ArrayList<>();
     List<String> keylist = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    String id;
-    int lastp;
+    DatabaseReference databaseReference,reference;
+    String id,key2="nu";
+    int lastp,flagev=0,flagto=0;
+    Bundle bundle = this.getArguments();
+
     AlertDialog.Builder builder1;
     AlertDialog alert11;
 
@@ -84,13 +87,36 @@ public class OrdersFragment extends Fragment {
                 list2.clear();
                 keylist.clear();
                 for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    if(postSnapshot.child("user").exists()&&
+                            postSnapshot.child("myid").exists()&&
+                            postSnapshot.child("uid").exists()){
+                        if(postSnapshot.child("uid").getValue().toString().equals(id)&&flagev==0){
+                            flagev = 1;
+                            Intent intent = new Intent(getContext(),EvaluateActivity.class);
+                            intent.putExtra("uid",id);
+                            intent.putExtra("myid",postSnapshot.child("myid").getValue().toString());
+                            intent.putExtra("key",postSnapshot.getKey());
+                            intent.putExtra("eval","deliverer");
+                            startActivity(intent);
+
+                        }
+                    }
                     if(postSnapshot.child("uid").exists()&&
                             postSnapshot.child("lugar").exists()&&
                             postSnapshot.child("precio").exists()&&
                             postSnapshot.child("hora").exists()&&
                             postSnapshot.child("estado").exists()&&
                             postSnapshot.child("list").exists()){
-                        if(id.equals(postSnapshot.child("uid").getValue().toString())){
+                        if(id.equals(postSnapshot.child("uid").getValue().toString())&&postSnapshot.child("hora").exists()){
+                            bundle = getArguments();
+                            Log.d("bundle",bundle.toString());
+                            if(bundle != null){
+                                reference=firebaseDatabase.getReference("orders").child(postSnapshot.getKey());
+                                reference.child("ulat").setValue(bundle.getDouble("lat"));
+                                reference.child("ulng").setValue(bundle.getDouble("lng"));
+                                Log.d("key",postSnapshot.getKey());
+                                //Toast.makeText(getContext(),"Posición actualizada",Toast.LENGTH_SHORT).show();
+                            }
                             keylist.add(postSnapshot.getKey());
                             String estado = "Pendiente";
                             String deliverer = "Ninguno.";
@@ -101,7 +127,12 @@ public class OrdersFragment extends Fragment {
                                 estado = "En camino";
                             }
                             if(postSnapshot.child("deliverer").exists()){
+                                key2 = postSnapshot.getKey();
                                 deliverer = postSnapshot.child("deliverer").getValue().toString();
+                                if(flagto==0){
+                                    Toast.makeText(getContext(),"El pedido fue tomado por el deliverer: "+deliverer,Toast.LENGTH_SHORT).show();
+                                    flagto = 1;
+                                }
                             }
                             list.add(new OrdersItems(estado,deliverer,lugar,precio,String.valueOf(tiempo)+"min"));
                             list2 = new ArrayList<>();
@@ -133,7 +164,11 @@ public class OrdersFragment extends Fragment {
                         pre.setVisibility(View.VISIBLE);
                         qu.setVisibility(View.VISIBLE);
                         recyclerView2.setVisibility(View.VISIBLE);
-                        cancel.setVisibility(View.VISIBLE);
+                        if(key2.equals(keylist.get(position))){
+                            cancel.setVisibility(View.GONE);
+                        }else {
+                            cancel.setVisibility(View.VISIBLE);
+                        }
 
                         recyclerView2.setHasFixedSize(true);
 
